@@ -1,0 +1,11 @@
+.parent{
+	-fx-background-image:url(../background.jpg);
+	-fx-background-position:center;
+	-fx-background-repeat:no-repeat;
+	-fx-background-size:cover;
+	}
+	
+
+   .contact-list:hover{
+    -fx-background-color: #80daeb;    
+}
