@@ -42,6 +42,26 @@ public class SignUpController implements Initializable {
     }
 
     @FXML
+    void exit(MouseEvent event) {
+        Node node = (Node) event.getSource();
+
+
+        Stage stage = (Stage) node.getScene().getWindow();
+
+        stage.close();
+    }
+
+    @FXML
+    void close (MouseEvent event) {
+        Node node = (Node) event.getSource();
+
+
+        Stage stage = (Stage) node.getScene().getWindow();
+
+        stage.setIconified(true);
+    }
+
+    @FXML
     void signup(MouseEvent event) {
     }
 
