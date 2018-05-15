@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="634.0" prefWidth="838.0" styleClass="parent" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SignUpController">
+<AnchorPane onMouseDragged="#dragged" onMousePressed="#pressed" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="634.0" prefWidth="838.0" styleClass="parent" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SignUpController">
    <children>
       <VBox layoutX="303.0" layoutY="296.0" prefHeight="199.0" prefWidth="225.0">
          <children>
@@ -54,7 +54,7 @@
                         <Insets left="38.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onMouseClicked="#login" style="-fx-background-color: transparent; -fx-border-width: 0px 0px 2px 0px; -fx-border-color: black; -fx-font-size: 1.2EM; -fx-font-weight: BOLD;" styleClass="contact-list" text="Login" textAlignment="CENTER">
+                  <Button alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onMouseClicked="#login" style="-fx-background-color: transparent; -fx-border-width: 0px 0px 2px 0px; -fx-border-color: black; -fx-font-size: 1.2EM; -fx-font-weight: BOLD;" text="Login" textAlignment="CENTER">
                      <HBox.margin>
                         <Insets left="38.0" top="5.0" />
                      </HBox.margin>

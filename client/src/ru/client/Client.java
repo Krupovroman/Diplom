@@ -14,7 +14,7 @@ public class Client extends Application {
     public void start(Stage stage) throws Exception {
 
 
-        Parent root = FXMLLoader.load(getClass().getResource("../../forms/SignUp.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../../forms/Login.fxml"));
 
         Scene scene = new Scene(root);
 

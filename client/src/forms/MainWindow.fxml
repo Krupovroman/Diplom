@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="634.0" prefWidth="838.0" styleClass="parent" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SignUpController">
+   <children>
+      <ImageView fitHeight="47.0" fitWidth="27.0" layoutX="7.0" layoutY="6.0" opacity="0.74" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../i22.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="801.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#exit" prefHeight="25.0" prefWidth="23.0" style="-fx-background-color: transparent;" styleClass="button-exit">
+         <graphic>
+            <FontAwesomeIcon fill="RED" iconName="CIRCLE" opacity="0.55" styleClass="button-exit" text="" />
+         </graphic>
+      </Button>
+      <Button layoutX="781.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#close" prefHeight="12.0" prefWidth="23.0" style="-fx-background-color: transparent;" styleClass="button-close">
+         <graphic>
+            <FontAwesomeIcon fill="#0067ff" iconName="CIRCLE" opacity="0.55" />
+         </graphic>
+      </Button>
+      <AnchorPane layoutX="7.0" layoutY="16.0" prefHeight="591.0" prefWidth="210.0">
+         <children>
+            <ScrollPane hbarPolicy="NEVER" layoutY="37.0" opacity="0.8" prefHeight="554.0" prefWidth="210.0" vvalue="1.0">
+               <content>
+                  <VBox fx:id="contactsArea" prefHeight="552.0" prefWidth="207.0" />
+               </content>
+            </ScrollPane>
+            <Label alignment="TOP_CENTER" layoutX="56.0" layoutY="-3.0" opacity="0.54" style="-fx-font-size: 2EM; -fx-font-weight: bold;" text="Contacts" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="chatPane" layoutX="224.0" layoutY="53.0" prefHeight="555.0" prefWidth="606.0">
+         <children>
+            <TextField fx:id="txtMsg" layoutY="520.0" onAction="#SEND" prefHeight="35.0" prefWidth="606.0" />
+            <ScrollPane hbarPolicy="NEVER" opacity="0.8" prefHeight="515.0" prefWidth="606.0" vvalue="1.0">
+               <content>
+                  <VBox fx:id="textArea" alignment="TOP_RIGHT" prefHeight="513.0" prefWidth="605.0" />
+               </content>
+            </ScrollPane>
+         </children>
+      </AnchorPane>
+
+   </children>
+</AnchorPane>
