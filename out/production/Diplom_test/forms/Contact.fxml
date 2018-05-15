@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<HBox fx:id="contactBox" fillHeight="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="186.0" style="-fx-background-color: transparent;" styleClass="contact-list" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
+   <children>
+      <VBox alignment="TOP_RIGHT" prefHeight="80.0" prefWidth="200.0">
+         <children>
+            <Circle fx:id="avatar" fill="#1f93ff" radius="33.0" stroke="BLACK" strokeType="INSIDE" />
+         </children>
+      </VBox>
+      <Label fx:id="contactName" alignment="CENTER" prefHeight="79.0" prefWidth="319.0" style="-fx-background-color: #F5F5F5; -fx-background-radius: 10PX;">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+   </children>
+</HBox>

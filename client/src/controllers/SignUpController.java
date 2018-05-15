@@ -10,6 +10,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import ru.client.Client;
 import ru.client.Database;
 
@@ -48,6 +49,17 @@ public class SignUpController implements Initializable {
 
         stage.setX(event.getScreenX() - x);
         stage.setY(event.getScreenY() - y);
+        stage.setOpacity(0.5);
+//        s.setFill(Color.TRANSPARENT);
+    }
+
+    @FXML
+    void undragged(MouseEvent event) {
+
+        Node node = (Node) event.getSource();
+
+        Stage stage = (Stage) node.getScene().getWindow();
+        stage.setOpacity(1);
     }
 
     @FXML
