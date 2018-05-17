@@ -1,5 +1,6 @@
 package controllers;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,27 +8,38 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import ru.client.Database;
+import ru.network.TCPConnection;
+import ru.network.TCPConnectionListener;
 
+
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
-import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
-public class MainSceneController implements Initializable{
+public class MainSceneController implements Initializable, TCPConnectionListener, ActionListener {
 
-    @FXML
-    private HBox messageBox;
+    private static final String IP_ADDR = "127.0.0.1";
+    private static int PORT = 8189;
+    private TCPConnection connection;
 
-    @FXML
-    private TextArea textMessage;
+//    private MainSceneController(){
+//        try {
+//            connection = new TCPConnection(this, IP_ADDR, PORT);
+//        } catch (IOException e) {
+////            printMessage("Connection exception: " + e);
+//        }
+//    }
 
     @FXML
     private VBox textArea;
@@ -41,7 +53,10 @@ public class MainSceneController implements Initializable{
     @FXML
     private AnchorPane chatPane;
 
-    double x = 0, y = 0;
+    @FXML
+    private ScrollPane ScrollProperty;
+
+    private double x = 0, y = 0;
     String textForChat;
 
     @FXML
@@ -79,7 +94,7 @@ public class MainSceneController implements Initializable{
 
 
         Stage stage = (Stage) node.getScene().getWindow();
-
+        
         stage.close();
     }
 
@@ -100,18 +115,58 @@ public class MainSceneController implements Initializable{
     }
 
     @FXML
-    void SEND(ActionEvent event) throws Exception{
-//        textArea.getChildren().add(messageBox);
-//        HBox newLoadedPane =  FXMLLoader.load(getClass().getResource("/forms/Message.fxml"));
-        FXMLLoader loader = new FXMLLoader();
-        Parent rootNode = null;
-        rootNode = loader.load(getClass().getResource("/forms/Message.fxml"));
-        TextArea text = (TextArea) rootNode.lookup("#textMessage");
-        text.setText(txtMsg.getText());
-        textArea.getChildren().addAll(new VBox(rootNode));
+    synchronized void SEND(ActionEvent event) throws Exception{
+//        FXMLLoader loader = new FXMLLoader();
+//        Parent rootNode = null;
+//        rootNode = loader.load(getClass().getResource("/forms/Message.fxml"));
+//        TextArea text = (TextArea) rootNode.lookup("#textMessage");
+//        text.setText(txtMsg.getText());
+//        VBox box = new VBox(rootNode);
+//        box.setAlignment(Pos.TOP_RIGHT);
+//        textArea.getChildren().addAll(box);
+
+        connection.sendMessage(txtMsg.getText());
+        ScrollProperty.vvalueProperty().bind(textArea.heightProperty());
         txtMsg.clear();
     }
 
+    private synchronized void getMessage(String msg){
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                FXMLLoader loader = new FXMLLoader();
+                Parent rootNode = null;
+                try {
+                    rootNode = loader.load(getClass().getResource("/forms/Message.fxml"));
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                TextArea text = (TextArea) rootNode.lookup("#textMessage");
+
+                text.setText(msg);
+//        text.setText(msg);
+//        connection.sendMessage(txtMsg.getText());
+                VBox box = new VBox(rootNode);
+                box.setAlignment(Pos.TOP_RIGHT);
+                textArea.getChildren().addAll(box);
+            }
+        });
+//        FXMLLoader loader = new FXMLLoader();
+//        Parent rootNode = null;
+//        try {
+//            rootNode = loader.load(getClass().getResource("/forms/Message.fxml"));
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        TextArea text = (TextArea) rootNode.lookup("#textMessage");
+//
+//        text.setText(msg);
+////        text.setText(msg);
+////        connection.sendMessage(txtMsg.getText());
+//        VBox box = new VBox(rootNode);
+//        box.setAlignment(Pos.TOP_RIGHT);
+//        textArea.getChildren().addAll(box);
+    }
 
 //        Parent root = FXMLLoader.load(getClass().getResource("/forms/login.fxml"));
 //
@@ -124,5 +179,53 @@ public class MainSceneController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        try {
+            connection = new TCPConnection(this, IP_ADDR, PORT);
+        } catch (IOException e) {
+//            printMessage("Connection exception: " + e);
+        }
     }
+
+void get(String a){
+
+}
+
+    @Override
+    public void onConnectionReady(TCPConnection topConnection) {
+    }
+
+    @Override
+    public void onReceiveString(TCPConnection topConnection, String value)  {
+//        getMessage(value);
+        getMessage(value);
+    }
+
+    @Override
+    public void onDisconnect(TCPConnection tcpConnection) {
+
+    }
+
+    @Override
+    public void onException(TCPConnection tcpConnection, Exception e) {
+
+    }
+
+    @Override
+    public void actionPerformed(java.awt.event.ActionEvent e) {
+        String message = txtMsg.getText();
+        if(message.equals(""))return;
+        txtMsg.setText(null);
+        connection.sendMessage("I'M" + ": " + message);
+        System.out.println(message);
+    }
+
+//    private synchronized void printMessage(String msg){
+//        new Runnable() {
+//            @Override
+//            public void run() {
+//                log.append(msg + "\n");
+//                log.setCaretPosition(log.getDocument().getLength());
+//            }
+//        }
+//    }
 }
