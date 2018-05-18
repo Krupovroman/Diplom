@@ -15,6 +15,7 @@ public class ChatServer implements TCPConnectionListener{
     }
 
     ArrayList<TCPConnection> connections = new ArrayList<>();
+    ArrayList<String> users = new ArrayList<>();
 
     public ChatServer(){
         System.out.println("Server running");
@@ -34,18 +35,18 @@ public class ChatServer implements TCPConnectionListener{
     @Override
     public synchronized void onConnectionReady(TCPConnection topConnection) {
         connections.add(topConnection);
-        sendAllConnections("Client connected: " + topConnection);
+//        sendAllConnections("Client connected: " + topConnection);
     }
 
     @Override
     public synchronized void onReceiveString(TCPConnection topConnection, String value) {
-        sendAllConnections(new SimpleDateFormat("hh:mm:ss").format(new Date()) + " " + value);
+        sendAllConnections(value);
     }
 
     @Override
     public synchronized void onDisconnect(TCPConnection tcpConnection) {
         connections.remove(tcpConnection);
-        sendAllConnections("Client disconnected: " + tcpConnection);
+//        sendAllConnections("Client disconnected: " + tcpConnection);
     }
 
     @Override

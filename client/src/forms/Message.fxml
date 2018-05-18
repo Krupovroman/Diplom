@@ -11,12 +11,12 @@
    <children>
       <VBox prefHeight="103.0" prefWidth="246.0" style="-fx-background-color: #F5F5F5; -fx-background-radius: 10PX;">
          <children>
-            <Label alignment="TOP_RIGHT" text="Nickname" />
+            <Label fx:id="nicknameMessage" alignment="TOP_RIGHT" text="Nickname" />
             <TextArea fx:id="textMessage" accessibleRole="PARENT" editable="false" prefHeight="89.0" prefWidth="236.0" wrapText="true">
                <VBox.margin>
                   <Insets right="10.0" top="5.0" />
                </VBox.margin></TextArea>
-            <Label text="10:00" />
+            <Label fx:id="timeMessage" text="10:00" />
          </children>
          <HBox.margin>
             <Insets top="10.0" />

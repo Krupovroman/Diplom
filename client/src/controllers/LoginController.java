@@ -18,6 +18,8 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
 
+    static String loginUser;
+
     @FXML
     private TextField pf_login;
 
@@ -58,13 +60,24 @@ public class LoginController implements Initializable {
     void login(MouseEvent event) throws IOException {
 
         if (new Database().checkAcount(pf_login.getText(), pf_password.getText())){
-            Parent root = FXMLLoader.load(getClass().getResource("/forms/MainWindow.fxml"));
+            loginUser = pf_login.getText();
 
-            Node node = (Node) event.getSource();
+            try {
+                FXMLLoader loader =new FXMLLoader(getClass().getResource("/forms/MainWindow.fxml"));
+                Parent root = loader.load() ;
+//                FXMLLoader.load(getClass().getResource("/forms/MainWindow.fxml"))
+                MainSceneController mainScene = loader.getController();
+                mainScene.getNickname(pf_login.getText());
 
-            Stage stage = (Stage) node.getScene().getWindow();
+                Node node = (Node) event.getSource();
 
-            stage.setScene(new Scene(root));
+                Stage stage = (Stage) node.getScene().getWindow();
+
+                stage.setScene(new Scene(root));
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
             System.out.println("Разрешено");
         }else {
             System.out.println("Запрещено");
