@@ -13,7 +13,7 @@ public class Database {
         try {
             Connection connection = DriverManager.getConnection(url, username, password);
             Statement statement = connection.createStatement();
-            statement.executeUpdate("INSERT INTO usersdatabase VALUES('" + login + "','" + login + "','" + pass + "','" + pass + "');");
+            statement.executeUpdate("INSERT INTO usersdatabase VALUES('" + login + "','" + login + "','" + pass + "','" + pass + "','" + null + "');");
             statement.close();
             connection.close();
         }catch (SQLException e){

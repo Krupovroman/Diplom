@@ -13,11 +13,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -36,23 +33,15 @@ import java.util.ResourceBundle;
 
 public class MainSceneController implements Initializable, TCPConnectionListener, ActionListener {
 
-    private static final String IP_ADDR = "127.0.0.1";
-    private static int PORT = 8189;
+    private final String IP_ADDR = "127.0.0.1";
+    private int PORT = 8189;
     private TCPConnection connection;
     private String nickname;
     private ArrayList<String> users = new ArrayList<>();
 
-    public enum ConnectionDisplayState {
-        DISCONNECTED, CONNECTED, GETAVATAR, GETNICKNAME, GETMESSAGE
-    }
 
-//    private MainSceneController(){
-//        try {
-//            connection = new TCPConnection(this, IP_ADDR, PORT);
-//        } catch (IOException e) {
-////            printMessage("Connection exception: " + e);
-//        }
-//    }
+
+
 
     @FXML
     private VBox textArea;
@@ -63,14 +52,12 @@ public class MainSceneController implements Initializable, TCPConnectionListener
     @FXML
     private TextField txtMsg;
 
-    @FXML
-    private AnchorPane chatPane;
 
     @FXML
     private ScrollPane ScrollProperty;
 
     private double x = 0, y = 0;
-    String textForChat;
+
 
     @FXML
     void pressed(MouseEvent event) {
@@ -162,6 +149,8 @@ public class MainSceneController implements Initializable, TCPConnectionListener
                         Parent rootNode = null;
                         rootNode = loader.load(getClass().getResource("/forms/Contact.fxml"));
                         Label text = (Label) rootNode.lookup("#contactName");
+                        Circle avatar = (Circle) rootNode.lookup("#avatar");
+                        avatar.setFill(new ImagePattern(new Image("https://cdn2.iconfinder.com/data/icons/website-icons/512/User_Avatar-512.png")));
                         if (!users.contains(msg.substring(7))) {
                             users.add(msg.substring(7));
                             text.setText(msg.substring(7));
@@ -285,6 +274,8 @@ public class MainSceneController implements Initializable, TCPConnectionListener
             Parent rootNode = null;
             rootNode = loader.load(getClass().getResource("/forms/Contact.fxml"));
             Label text = (Label) rootNode.lookup("#contactName");
+            Circle avatar = (Circle) rootNode.lookup("#avatar");
+            avatar.setFill(new ImagePattern(new Image("https://cdn2.iconfinder.com/data/icons/website-icons/512/User_Avatar-512.png")));
             text.setText(userName);
             contactsArea.getChildren().addAll(new VBox(rootNode));
         } catch (Exception e) {
@@ -323,13 +314,5 @@ public class MainSceneController implements Initializable, TCPConnectionListener
         System.out.println(message);
     }
 
-//    private synchronized void printMessage(String msg){
-//        new Runnable() {
-//            @Override
-//            public void run() {
-//                log.append(msg + "\n");
-//                log.setCaretPosition(log.getDocument().getLength());
-//            }
-//        }
-//    }
+
 }
