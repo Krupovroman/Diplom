@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -25,6 +26,9 @@ public class LoginController implements Initializable {
 
     @FXML
     private PasswordField pf_password;
+
+    @FXML
+    private Label WRONG;
 
     double x = 0, y = 0;
 
@@ -81,6 +85,7 @@ public class LoginController implements Initializable {
             System.out.println("Разрешено");
         }else {
             System.out.println("Запрещено");
+            WRONG.setVisible(true);
         }
 
 

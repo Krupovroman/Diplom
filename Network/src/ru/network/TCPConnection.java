@@ -44,7 +44,6 @@ public class TCPConnection {
 
     public synchronized void sendMessage(String value){
         try {
-//            out.write(new SimpleDateFormat("hh:mm:ss").format(new Date()) + " ");
             out.write(
                     value + "\r\n");
             out.flush();

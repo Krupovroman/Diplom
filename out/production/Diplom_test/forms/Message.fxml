@@ -9,14 +9,20 @@
 
 <HBox fx:id="messageBox" alignment="TOP_RIGHT" fillHeight="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="116.0" prefWidth="340.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
    <children>
-      <VBox prefHeight="103.0" prefWidth="246.0" style="-fx-background-color: #F5F5F5; -fx-background-radius: 10PX;">
+      <VBox alignment="TOP_RIGHT" prefHeight="103.0" prefWidth="246.0" style="-fx-background-color: #F5F5F5; -fx-background-radius: 10PX;">
          <children>
-            <Label fx:id="nicknameMessage" alignment="TOP_RIGHT" text="Nickname" />
+            <Label fx:id="nicknameMessage" alignment="TOP_RIGHT" text="Nickname">
+               <VBox.margin>
+                  <Insets right="10.0" />
+               </VBox.margin></Label>
             <TextArea fx:id="textMessage" accessibleRole="PARENT" editable="false" prefHeight="89.0" prefWidth="236.0" wrapText="true">
                <VBox.margin>
                   <Insets right="10.0" top="5.0" />
                </VBox.margin></TextArea>
-            <Label fx:id="timeMessage" text="10:00" />
+            <Label fx:id="timeMessage" text="10:00">
+               <VBox.margin>
+                  <Insets right="10.0" />
+               </VBox.margin></Label>
          </children>
          <HBox.margin>
             <Insets top="10.0" />

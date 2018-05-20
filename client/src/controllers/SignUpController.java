@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -31,6 +32,9 @@ public class SignUpController implements Initializable {
 
     @FXML
     private PasswordField pf_password;
+
+    @FXML
+    private Label WRONG;
 
     double x = 0, y = 0;
 
@@ -102,7 +106,16 @@ public class SignUpController implements Initializable {
         if(new Database().checkOnFree(pf_login.getText())) {
             new Database().addNewAccount(pf_login.getText(), pf_password.getText());
             System.out.println("OK");
+
+            Parent root = FXMLLoader.load(getClass().getResource("/forms/login.fxml"));
+
+            Node node = (Node) event.getSource();
+
+            Stage stage = (Stage) node.getScene().getWindow();
+
+            stage.setScene(new Scene(root));
         }else {
+            WRONG.setVisible(true);
             System.out.println("NE OK");
         }
 

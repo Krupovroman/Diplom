@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane onMouseDragged="#dragged" onMousePressed="#pressed" onMouseReleased="#undragged" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="634.0" prefWidth="838.0" styleClass="parent" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SignUpController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseDragged="#dragged" onMousePressed="#pressed" onMouseReleased="#undragged" prefHeight="634.0" prefWidth="838.0" styleClass="parent" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SignUpController">
    <children>
       <VBox layoutX="303.0" layoutY="296.0" prefHeight="199.0" prefWidth="225.0">
          <children>
@@ -79,6 +79,7 @@
             <FontAwesomeIcon fill="#0067ff" iconName="CIRCLE" opacity="0.55" />
          </graphic>
       </Button>
+      <Label fx:id="WRONG" layoutX="536.0" layoutY="296.0" opacity="0.48" prefHeight="25.0" prefWidth="154.0" text="This name is already taken" textFill="RED" visible="false" />
 
    </children>
 </AnchorPane>

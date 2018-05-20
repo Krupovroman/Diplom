@@ -30,6 +30,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -39,6 +40,7 @@ public class MainSceneController implements Initializable, TCPConnectionListener
     private static int PORT = 8189;
     private TCPConnection connection;
     private String nickname;
+    private ArrayList<String> users = new ArrayList<>();
 
     public enum ConnectionDisplayState {
         DISCONNECTED, CONNECTED, GETAVATAR, GETNICKNAME, GETMESSAGE
@@ -101,13 +103,13 @@ public class MainSceneController implements Initializable, TCPConnectionListener
 
     @FXML
     void exit(MouseEvent event) {
-        String message;
-        if (nickname.length() >= 10) {
-            message = nickname.length() + ":" + nickname + "Disconnected";
-        } else {
-            message = "0" + nickname.length() + nickname + "Disconnected";
-        }
-        connection.sendMessage(message);
+//        String message;
+//        if (nickname.length() >= 10) {
+//            message = nickname.length() + ":" + nickname + "Disconnected";
+//        } else {
+//            message = "0" + nickname.length() + nickname + "Disconnected";
+//        }
+        connection.sendMessage("Disconnected"+nickname);
         connection.disconnect();
         Node node = (Node) event.getSource();
 
@@ -119,20 +121,13 @@ public class MainSceneController implements Initializable, TCPConnectionListener
 
     @FXML
     void close(MouseEvent event) throws Exception {
-//        Node node = (Node) event.getSource();
-//
-//
-//        Stage stage = (Stage) node.getScene().getWindow();
-//
-//        stage.setIconified(true);
-        FXMLLoader loader = new FXMLLoader();
-        Parent rootNode = null;
-        rootNode = loader.load(getClass().getResource("/forms/Contact.fxml"));
-        Label text = (Label) rootNode.lookup("#contactName");
-        text.setText("Рандом");
-        contactsArea.getChildren().addAll(new VBox(rootNode));
-        ImageView imageView = new ImageView();
-        Circle ci = new Circle();
+        Node node = (Node) event.getSource();
+
+
+        Stage stage = (Stage) node.getScene().getWindow();
+
+        stage.setIconified(true);
+
     }
 
 
@@ -157,35 +152,78 @@ public class MainSceneController implements Initializable, TCPConnectionListener
         txtMsg.clear();
     }
 
-    private synchronized void getMessage(String msg) {
+    private synchronized void getMessage(String msg){
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                FXMLLoader loader = new FXMLLoader();
-                Parent rootNode = null;
-                Parent root = null;
-                try {
-                    rootNode = loader.load(getClass().getResource("/forms/Message.fxml"));
-                    FXMLLoader load = new FXMLLoader(getClass().getResource("/forms/Login.fxml"));
-
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if(msg.length() > 7 && msg.substring(0, 7).equals("newUser")){
+                    try {
+                        FXMLLoader loader = new FXMLLoader();
+                        Parent rootNode = null;
+                        rootNode = loader.load(getClass().getResource("/forms/Contact.fxml"));
+                        Label text = (Label) rootNode.lookup("#contactName");
+                        if (!users.contains(msg.substring(7))) {
+                            users.add(msg.substring(7));
+                            text.setText(msg.substring(7));
+                            contactsArea.getChildren().addAll(new VBox(rootNode));
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
-                String nicknameFromMessage = msg.substring(2, Integer.parseInt(msg.substring(0, 2)) + 2);//побыдлокодим немножечко
-                String message = msg.substring(nicknameFromMessage.length() + 2);
-                TextArea text = (TextArea) rootNode.lookup("#textMessage");
-                Label nick = (Label) rootNode.lookup("#nicknameMessage");
-                nick.setText(nicknameFromMessage);
-                Label time = (Label) rootNode.lookup("#timeMessage");
-                Circle avatar = (Circle) rootNode.lookup("#avatar");
-                avatar.setFill(new ImagePattern(new Image("https://cdn2.iconfinder.com/data/icons/website-icons/512/User_Avatar-512.png")));
-                text.setText(message);
-                time.setText(new SimpleDateFormat("hh:mm:ss").format(new Date()));
-                VBox box = new VBox(rootNode);
-                box.setAlignment(Pos.TOP_RIGHT);
-                textArea.getChildren().addAll(box);
+                else {
+                    if (msg.length() > 10 && msg.substring(0, 10).equals("removeUser")) {
+                        try {
+                            if (users.contains(msg.substring(10))) {
+                                users.remove(msg.substring(10));
+                                contactsArea.getChildren().clear();
+                                for (int i = 0; i < users.size(); i++) {
+                                    repaint(users.get(i));
+                                }
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        FXMLLoader loader = new FXMLLoader();
+                        Parent rootNode = null;
+                        Parent root = null;
+                        String nicknameFromMessage = msg.substring(2, Integer.parseInt(msg.substring(0, 2)) + 2);//побыдлокодим немножечко
+                        try {
+                            if(nickname.equals(nicknameFromMessage)) {
+                                rootNode = loader.load(getClass().getResource("/forms/Message.fxml"));
+                                FXMLLoader load = new FXMLLoader(getClass().getResource("/forms/Login.fxml"));
+                            }
+                            else {
+                                rootNode = loader.load(getClass().getResource("/forms/MessageFrom.fxml"));
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        String message = msg.substring(nicknameFromMessage.length() + 2);
+                        TextArea text = (TextArea) rootNode.lookup("#textMessage");
+                        Label nick = (Label) rootNode.lookup("#nicknameMessage");
+                        nick.setText(nicknameFromMessage);
+                        Label time = (Label) rootNode.lookup("#timeMessage");
+                        Circle avatar = (Circle) rootNode.lookup("#avatar");
+                        avatar.setFill(new ImagePattern(new Image("https://cdn2.iconfinder.com/data/icons/website-icons/512/User_Avatar-512.png")));
+                        text.setText(message);
+                        time.setText(new SimpleDateFormat("hh:mm:ss").format(new Date()));
+                        VBox box = new VBox(rootNode);
+                        if(nickname.equals(nicknameFromMessage)) {
+                            box.setAlignment(Pos.TOP_RIGHT);
+                        }
+                        else {
+                            box.setAlignment(Pos.TOP_LEFT);
+                        }
+                        textArea.getChildren().addAll(box);
+                    }
+                }
             }
         });
+
+
 //        FXMLLoader loader = new FXMLLoader();
 //        Parent rootNode = null;
 //        try {
@@ -220,13 +258,13 @@ public class MainSceneController implements Initializable, TCPConnectionListener
                 @Override
                 public void run() {
 
-                    String message;
-                    if (nickname.length() >= 10) {
-                        message = nickname.length() + ":" + nickname + "Connected";
-                    } else {
-                        message = "0" + nickname.length() + nickname + "Connected";
-                    }
-                    connection.sendMessage(message);
+//                    String message;
+//                    if (nickname.length() >= 10) {
+//                        message = nickname.length() + ":" + nickname + "Connected";
+//                    } else {
+//                        message = "0" + nickname.length() + nickname + "Connected";
+//                    }
+                    connection.sendMessage("Connected"+nickname);
                 }
             });
 //            String message;
@@ -238,6 +276,19 @@ public class MainSceneController implements Initializable, TCPConnectionListener
 //            connection.sendMessage(message);
         } catch (IOException e) {
 //            printMessage("Connection exception: " + e);
+        }
+    }
+
+    void repaint(String userName){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            Parent rootNode = null;
+            rootNode = loader.load(getClass().getResource("/forms/Contact.fxml"));
+            Label text = (Label) rootNode.lookup("#contactName");
+            text.setText(userName);
+            contactsArea.getChildren().addAll(new VBox(rootNode));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -256,7 +307,6 @@ public class MainSceneController implements Initializable, TCPConnectionListener
 
     @Override
     public void onDisconnect(TCPConnection tcpConnection) {
-        tcpConnection.sendMessage("04testDis");
     }
 
     @Override

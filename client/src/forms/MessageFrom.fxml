@@ -9,28 +9,22 @@
 
 <HBox fx:id="messageBox" alignment="TOP_RIGHT" fillHeight="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="116.0" prefWidth="340.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
    <children>
-      <VBox alignment="TOP_RIGHT" prefHeight="103.0" prefWidth="246.0" style="-fx-background-color: #F5F5F5; -fx-background-radius: 10PX;">
+      <Circle fx:id="avatar" fill="#1f93ff" radius="37.0" stroke="BLACK" strokeType="INSIDE">
+         <HBox.margin>
+            <Insets top="10.0" />
+         </HBox.margin></Circle>
+      <VBox prefHeight="103.0" prefWidth="246.0" style="-fx-background-color: #F5F5F5; -fx-background-radius: 10PX;">
          <children>
-            <Label fx:id="nicknameMessage" alignment="TOP_RIGHT" text="Nickname">
-               <VBox.margin>
-                  <Insets right="10.0" />
-               </VBox.margin></Label>
+            <Label fx:id="nicknameMessage" alignment="TOP_RIGHT" text="Nickname" />
             <TextArea fx:id="textMessage" accessibleRole="PARENT" editable="false" prefHeight="89.0" prefWidth="236.0" wrapText="true">
                <VBox.margin>
                   <Insets right="10.0" top="5.0" />
                </VBox.margin></TextArea>
-            <Label fx:id="timeMessage" text="10:00">
-               <VBox.margin>
-                  <Insets right="10.0" />
-               </VBox.margin></Label>
+            <Label fx:id="timeMessage" text="10:00" />
          </children>
          <HBox.margin>
-            <Insets top="10.0" />
+            <Insets left="10.0" top="10.0" />
          </HBox.margin>
       </VBox>
-      <Circle fx:id="avatar" fill="#1f93ff" radius="37.0" stroke="BLACK" strokeType="INSIDE">
-         <HBox.margin>
-            <Insets right="20.0" top="10.0" />
-         </HBox.margin></Circle>
    </children>
 </HBox>

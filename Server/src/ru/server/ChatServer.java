@@ -9,25 +9,25 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ChatServer implements TCPConnectionListener{
-    public static void main(String args[]){
+public class ChatServer implements TCPConnectionListener {
+    public static void main(String args[]) {
         new ChatServer();
     }
 
     ArrayList<TCPConnection> connections = new ArrayList<>();
     ArrayList<String> users = new ArrayList<>();
 
-    public ChatServer(){
+    public ChatServer() {
         System.out.println("Server running");
-        try (ServerSocket serverSocket = new ServerSocket(8189)){
-            while (true){
+        try (ServerSocket serverSocket = new ServerSocket(8189)) {
+            while (true) {
                 try {
                     new TCPConnection(this, serverSocket.accept());
-                }catch (IOException e){
-                    System.out.println("TCPConnection exception: "+ e);
+                } catch (IOException e) {
+                    System.out.println("TCPConnection exception: " + e);
                 }
             }
-        }catch (IOException e){
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -54,9 +54,35 @@ public class ChatServer implements TCPConnectionListener{
         System.out.println("TCPConnection exteption: " + e);
     }
 
-    private void sendAllConnections(String value){
+    private void sendAllConnections(String value) {
         System.out.println(value);
         final int size = connections.size();
-        for (int i=0; i < size; i++)connections.get(i).sendMessage(value);
+        if (value.length() > 9 && value.substring(0, 9).equals("Connected") && !users.contains(value.substring(9))) {
+            users.add(value.substring(9));
+
+            for (int j = 0; j < users.size(); j++) {
+                for (int i = 0; i < size; i++) {
+                    connections.get(i).sendMessage("newUser" + users.get(j));
+                }
+            }
+        }
+        else {
+            if (value.length() > 12 && value.substring(0, 12).equals("Disconnected")) {
+                users.remove(value.substring(12));
+
+                for (int i = 0; i < size; i++) {
+                    connections.get(i).sendMessage("removeUser" + value.substring(12));
+                }
+//
+//                for (int j = 0; j < users.size(); j++) {
+//                    for (int i = 0; i < size; i++) {
+//                        connections.get(i).sendMessage("newUser" + users.get(j));
+//                    }
+//                }
+            }
+            else {
+                for (int i = 0; i < size; i++) connections.get(i).sendMessage(value);
+            }
+        }
     }
 }
