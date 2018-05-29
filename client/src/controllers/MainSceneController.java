@@ -14,16 +14,12 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import ru.network.TCPConnection;
 import ru.network.TCPConnectionListener;
-
-
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -31,16 +27,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-public class MainSceneController implements Initializable, TCPConnectionListener, ActionListener {
+public class MainSceneController implements Initializable, TCPConnectionListener {
 
     private final String IP_ADDR = "127.0.0.1";
     private int PORT = 8189;
     private TCPConnection connection;
     private String nickname;
     private ArrayList<String> users = new ArrayList<>();
-
-
-
 
 
     @FXML
@@ -75,7 +68,6 @@ public class MainSceneController implements Initializable, TCPConnectionListener
         stage.setX(event.getScreenX() - x);
         stage.setY(event.getScreenY() - y);
         stage.setOpacity(0.5);
-//        s.setFill(Color.TRANSPARENT);
     }
 
     @FXML
@@ -90,13 +82,7 @@ public class MainSceneController implements Initializable, TCPConnectionListener
 
     @FXML
     void exit(MouseEvent event) {
-//        String message;
-//        if (nickname.length() >= 10) {
-//            message = nickname.length() + ":" + nickname + "Disconnected";
-//        } else {
-//            message = "0" + nickname.length() + nickname + "Disconnected";
-//        }
-        connection.sendMessage("Disconnected"+nickname);
+        connection.sendMessage("Disconnected" + nickname);
         connection.disconnect();
         Node node = (Node) event.getSource();
 
@@ -120,14 +106,6 @@ public class MainSceneController implements Initializable, TCPConnectionListener
 
     @FXML
     synchronized void SEND(ActionEvent event) throws Exception {
-//        FXMLLoader loader = new FXMLLoader();
-//        Parent rootNode = null;
-//        rootNode = loader.load(getClass().getResource("/forms/Message.fxml"));
-//        TextArea text = (TextArea) rootNode.lookup("#textMessage");
-//        text.setText(txtMsg.getText());
-//        VBox box = new VBox(rootNode);
-//        box.setAlignment(Pos.TOP_RIGHT);
-//        textArea.getChildren().addAll(box);
         String message;
         if (nickname.length() >= 10) {
             message = nickname.length() + ":" + nickname + txtMsg.getText();
@@ -139,11 +117,11 @@ public class MainSceneController implements Initializable, TCPConnectionListener
         txtMsg.clear();
     }
 
-    private synchronized void getMessage(String msg){
+    private synchronized void getMessage(String msg) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                if(msg.length() > 7 && msg.substring(0, 7).equals("newUser")){
+                if (msg.length() > 7 && msg.substring(0, 7).equals("newUser")) {
                     try {
                         FXMLLoader loader = new FXMLLoader();
                         Parent rootNode = null;
@@ -156,11 +134,10 @@ public class MainSceneController implements Initializable, TCPConnectionListener
                             text.setText(msg.substring(7));
                             contactsArea.getChildren().addAll(new VBox(rootNode));
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
-                }
-                else {
+                } else {
                     if (msg.length() > 10 && msg.substring(0, 10).equals("removeUser")) {
                         try {
                             if (users.contains(msg.substring(10))) {
@@ -179,11 +156,10 @@ public class MainSceneController implements Initializable, TCPConnectionListener
                         Parent root = null;
                         String nicknameFromMessage = msg.substring(2, Integer.parseInt(msg.substring(0, 2)) + 2);//побыдлокодим немножечко
                         try {
-                            if(nickname.equals(nicknameFromMessage)) {
+                            if (nickname.equals(nicknameFromMessage)) {
                                 rootNode = loader.load(getClass().getResource("/forms/Message.fxml"));
                                 FXMLLoader load = new FXMLLoader(getClass().getResource("/forms/Login.fxml"));
-                            }
-                            else {
+                            } else {
                                 rootNode = loader.load(getClass().getResource("/forms/MessageFrom.fxml"));
                             }
 
@@ -200,10 +176,9 @@ public class MainSceneController implements Initializable, TCPConnectionListener
                         text.setText(message);
                         time.setText(new SimpleDateFormat("hh:mm:ss").format(new Date()));
                         VBox box = new VBox(rootNode);
-                        if(nickname.equals(nicknameFromMessage)) {
+                        if (nickname.equals(nicknameFromMessage)) {
                             box.setAlignment(Pos.TOP_RIGHT);
-                        }
-                        else {
+                        } else {
                             box.setAlignment(Pos.TOP_LEFT);
                         }
                         textArea.getChildren().addAll(box);
@@ -211,32 +186,7 @@ public class MainSceneController implements Initializable, TCPConnectionListener
                 }
             }
         });
-
-
-//        FXMLLoader loader = new FXMLLoader();
-//        Parent rootNode = null;
-//        try {
-//            rootNode = loader.load(getClass().getResource("/forms/Message.fxml"));
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-//        TextArea text = (TextArea) rootNode.lookup("#textMessage");
-//
-//        text.setText(msg);
-////        text.setText(msg);
-////        connection.sendMessage(txtMsg.getText());
-//        VBox box = new VBox(rootNode);
-//        box.setAlignment(Pos.TOP_RIGHT);
-//        textArea.getChildren().addAll(box);
     }
-
-//        Parent root = FXMLLoader.load(getClass().getResource("/forms/login.fxml"));
-//
-//        Node node = (Node) event.getSource();
-//
-//        Stage stage = (Stage) node.getScene().getWindow();
-//
-//        stage.setScene(new Scene(root));
 
 
     @Override
@@ -247,28 +197,14 @@ public class MainSceneController implements Initializable, TCPConnectionListener
                 @Override
                 public void run() {
 
-//                    String message;
-//                    if (nickname.length() >= 10) {
-//                        message = nickname.length() + ":" + nickname + "Connected";
-//                    } else {
-//                        message = "0" + nickname.length() + nickname + "Connected";
-//                    }
-                    connection.sendMessage("Connected"+nickname);
+                    connection.sendMessage("Connected" + nickname);
                 }
             });
-//            String message;
-//            if(nickname.length() >= 10) {
-//                message = nickname.length() + ":" + nickname + "Connected";
-//            }else {
-//                message = "0" + nickname.length() + nickname + "Connected";
-//            }
-//            connection.sendMessage(message);
         } catch (IOException e) {
-//            printMessage("Connection exception: " + e);
         }
     }
 
-    void repaint(String userName){
+    void repaint(String userName) {
         try {
             FXMLLoader loader = new FXMLLoader();
             Parent rootNode = null;
@@ -304,15 +240,4 @@ public class MainSceneController implements Initializable, TCPConnectionListener
     public void onException(TCPConnection tcpConnection, Exception e) {
 
     }
-
-    @Override
-    public void actionPerformed(java.awt.event.ActionEvent e) {
-        String message = txtMsg.getText();
-        if (message.equals("")) return;
-        txtMsg.setText(null);
-        connection.sendMessage(message);
-        System.out.println(message);
-    }
-
-
 }

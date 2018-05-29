@@ -11,16 +11,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import ru.client.Client;
 import ru.client.Database;
-
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ResourceBundle;
 
 public class SignUpController implements Initializable {

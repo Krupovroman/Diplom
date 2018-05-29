@@ -32,7 +32,6 @@ public class ChatServer implements TCPConnectionListener {
     @Override
     public synchronized void onConnectionReady(TCPConnection topConnection) {
         connections.add(topConnection);
-//        sendAllConnections("Client connected: " + topConnection);
     }
 
     @Override
@@ -43,7 +42,6 @@ public class ChatServer implements TCPConnectionListener {
     @Override
     public synchronized void onDisconnect(TCPConnection tcpConnection) {
         connections.remove(tcpConnection);
-//        sendAllConnections("Client disconnected: " + tcpConnection);
     }
 
     @Override
@@ -70,12 +68,6 @@ public class ChatServer implements TCPConnectionListener {
                 for (int i = 0; i < size; i++) {
                     connections.get(i).sendMessage("removeUser" + value.substring(12));
                 }
-//
-//                for (int j = 0; j < users.size(); j++) {
-//                    for (int i = 0; i < size; i++) {
-//                        connections.get(i).sendMessage("newUser" + users.get(j));
-//                    }
-//                }
             }
             else {
                 for (int i = 0; i < size; i++) connections.get(i).sendMessage(value);
